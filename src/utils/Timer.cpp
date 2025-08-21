@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #include "Timer.h"
 
@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-namespace md_ml {
+namespace bioauth{
 
 void Timer::start() {
     start_ = std::chrono::steady_clock::now();

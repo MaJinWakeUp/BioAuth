@@ -1,15 +1,15 @@
-// By Boshi Yuan
+
 /// @file
 
-#ifndef MD_ML_RAND_H
-#define MD_ML_RAND_H
+#ifndef BIOAUTH_RAND_H
+#define BIOAUTH_RAND_H
 
 
 #include <random>
 #include <algorithm>
 #include <concepts>
 
-namespace md_ml {
+namespace bioauth {
 
 /// Generate a random number of type Tp
 /// @tparam Tp The type of the random number to be generated, should be an integral type (e.g., uint64_t)
@@ -30,6 +30,6 @@ Tp getRand() {
     return *reinterpret_cast<Tp*>(buf);
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_RAND_H
+#endif //BIOAUTH_RAND_H

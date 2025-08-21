@@ -1,13 +1,13 @@
-// By Boshi Yuan
+// by sakara
 
-#ifndef MD_ML_MOD2POWN_H
-#define MD_ML_MOD2POWN_H
+#ifndef BIOAUTH_MOD2POWN_H
+#define BIOAUTH_MOD2POWN_H
 
 #include <cstdint>
 #include <cstddef>
 #include <type_traits>
 
-namespace md_ml {
+namespace  bioauth {
 
 /// Represent an integer modulo 2^N, N should be less than or equal to 128
 template <std::size_t N>
@@ -18,5 +18,5 @@ std::conditional_t<N <= 32,
                                       uint64_t,
                                       __uint128_t>>;
 
-} // namespace md_ml
-#endif //MD_ML_MOD2POWN_H
+} // namespace bioauth
+#endif //BIOAUTH_MOD2POWN_H

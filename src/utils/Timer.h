@@ -1,12 +1,12 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_TIMER_H
-#define MD_ML_TIMER_H
+
+#ifndef BIOAUTH_TIMER_H
+#define BIOAUTH_TIMER_H
 
 #include <chrono>
 #include <iostream>
 
-namespace md_ml {
+namespace bioauth {
 
 class Timer {
 public:
@@ -40,4 +40,4 @@ long long Timer::benchmark(const Func& f, Args&&... args) {
 }
 
 
-#endif //MD_ML_TIMER_H
+#endif //BIOAUTH_TIMER_H

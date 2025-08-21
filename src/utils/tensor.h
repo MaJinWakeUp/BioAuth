@@ -4,8 +4,8 @@
 
 // I left the code unchanged, but I will refactor it later.
 
-#ifndef MD_ML_TENSOR_H
-#define MD_ML_TENSOR_H
+#ifndef BIOAUTH_TENSOR_H
+#define BIOAUTH_TENSOR_H
 
 
 #include <vector>
@@ -363,4 +363,4 @@ std::vector<T> sumPool(const std::vector<T>& inputBuf, const MaxPoolOp& op) {
 }
 
 
-#endif //MD_ML_TENSOR_H
+#endif //BIOAUTH_TENSOR_H

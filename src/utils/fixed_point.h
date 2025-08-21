@@ -1,7 +1,7 @@
 // By Boshi Yuan
 
-#ifndef MD_ML_FIXED_POINT_H
-#define MD_ML_FIXED_POINT_H
+#ifndef BIOAUTH_FIXED_POINT_H
+#define BIOAUTH_FIXED_POINT_H
 
 
 #include <type_traits>
@@ -10,7 +10,7 @@
 #include <execution>
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <typename Tp>
@@ -96,6 +96,6 @@ std::vector<double> fix2doubleVec(const std::vector<ClearType>& x) {
     return res;
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_FIXED_POINT_H
+#endif //BIOAUTH_FIXED_POINT_H

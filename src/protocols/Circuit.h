@@ -1,7 +1,7 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_CIRCUIT_H
-#define MD_ML_CIRCUIT_H
+
+#ifndef BIOAUTH_CIRCUIT_H
+#define BIOAUTH_CIRCUIT_H
 
 
 #include <memory>
@@ -25,7 +25,7 @@
 #include "protocols/ReLUGate.h"
 #include "protocols/AvgPool2DGate.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class Circuit {
@@ -84,6 +84,8 @@ public:
 
     [[nodiscard]] auto& endpoints() { return endpoints_; }
 
+    Timer& timer() { return timer_; }
+
 private:
     PartyWithFakeOffline<ShrType>& party_;
     std::vector<std::shared_ptr<Gate<ShrType>>> gates_;
@@ -99,9 +101,11 @@ void Circuit<ShrType>::addEndpoint(const std::shared_ptr<Gate<ShrType>>& gate) {
 
 template <IsSpdz2kShare ShrType>
 void Circuit<ShrType>::runOffline() {
+
     for (const auto& gate : endpoints_) {
-        gate->runOffline();
+        gate->RunOffline();
     }
+
 }
 
 template <IsSpdz2kShare ShrType>
@@ -246,6 +250,7 @@ relu(const std::shared_ptr<Gate<ShrType>>& input_x) {
     return gate;
 }
 
-} // md_ml
 
-#endif //MD_ML_CIRCUIT_H
+} // bioauth
+
+#endif //BIOAUTH_CIRCUIT_H

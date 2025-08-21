@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef SUBTRACTGATE_H
 #define SUBTRACTGATE_H
@@ -10,7 +10,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "utils/linear_algebra.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class SubtractGate : public Gate<ShrType> {
@@ -49,6 +49,6 @@ void SubtractGate<ShrType>::doRunOnline() {
     this->Delta_clear() = matrixSubtract(this->input_x()->Delta_clear(), this->input_y()->Delta_clear());
 }
 
-} // md_ml
+} // bioauth
 
 #endif //SUBTRACTGATE_H

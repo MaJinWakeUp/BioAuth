@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef CONV2DTRUNCGATE_H
 #define CONV2DTRUNCGATE_H
@@ -13,7 +13,7 @@
 #include "utils/fixed_point.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class Conv2DTruncGate : public Conv2DGate<ShrType> {
@@ -68,6 +68,6 @@ void Conv2DTruncGate<ShrType>::doRunOnline() {
     truncateClearVecInplace(this->Delta_clear());
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //CONV2DTRUNCGATE_H

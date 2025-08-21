@@ -1,8 +1,5 @@
-// By Boshi Yuan
-
-#ifndef MD_ML_FAKEPARTY_H
-#define MD_ML_FAKEPARTY_H
-
+#ifndef BIOAUTH_FAKEPARTY_H
+#define BIOAUTH_FAKEPARTY_H
 
 #include <fstream>
 #include <filesystem>
@@ -11,13 +8,12 @@
 #include <numeric>
 #include <algorithm>
 #include <cstddef>
-
+#include <sstream>
 #include "share/IsSpdz2kShare.h"
 #include "utils/rand.h"
 #include "utils/uint128_io.h"
 
-namespace md_ml {
-
+namespace bioauth {
 
 /// A fake party that generates all preprocessing data for all parties,
 /// the preprocessed data are stored in local files.
@@ -55,9 +51,19 @@ public:
     /// Returns the number of parties
     auto constexpr static NParties() noexcept { return N; }
 
+    std::size_t getTotalOfflineBytesWritten() const {
+    return total_bytes_written_;
+    std::size_t input_bytes_written_ = 0;
+}
+
     /// Returns the i-th party's output ofstream
     [[nodiscard]] auto& ithPartyFile(std::size_t i) { return output_files_.at(i); }
 
+        /// 获取第 i 个 party 的 MAC key（α_i）
+    [[nodiscard]] KeyShrType mac_key(std::size_t i) const {
+        return key_shares_.at(i);
+    }
+    
     AllPartiesShares GenerateAllPartiesShares(ClearType value) const;
 
     AllPartiesSharesVec GenerateAllPartiesShares(const std::vector<ClearType>& value) const;
@@ -71,13 +77,18 @@ public:
 
     void WriteClearToAllParties(const std::vector<ClearType>& values);
 
+    /// Simulate sending data to another party (just count the bytes)
+    void SimulateSendToOther(const std::vector<SemiShrType>& data);
+      
+
 private:
     inline static const std::filesystem::path kFakeOfflineDir{FAKE_OFFLINE_DIR}; // The macro is in CMakeLists.txt
     GlobalKeyType global_key_;
     std::array<KeyShrType, N> key_shares_;
     std::array<std::ofstream, N> output_files_;
+    std::size_t total_bytes_written_ = 0;
+    //typename ShrType::ClearType mac_key_;
 };
-
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 FakeParty<ShrType, N>::FakeParty(const std::string& job_name) {
@@ -102,8 +113,8 @@ FakeParty<ShrType, N>::FakeParty(const std::string& job_name) {
     for (std::size_t i = 0; i < N; ++i) {
         output_files_[i] << key_shares_[i] << '\n';
     }
+    //mac_key_ = getRand<typename ShrType::ClearType>();
 }
-
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 typename FakeParty<ShrType, N>::AllPartiesShares FakeParty<ShrType, N>::
@@ -132,7 +143,6 @@ GenerateAllPartiesShares(ClearType value) const {
     return all_parties_shares;
 }
 
-
 template <IsSpdz2kShare ShrType, std::size_t N>
 typename FakeParty<ShrType, N>::AllPartiesSharesVec FakeParty<ShrType, N>::
 GenerateAllPartiesShares(const std::vector<ClearType>& value) const {
@@ -157,7 +167,6 @@ GenerateAllPartiesShares(const std::vector<ClearType>& value) const {
     return all_parties_shares;
 }
 
-
 // template <IsSpdz2kShare ShrType, std::size_t N>
 // void FakeParty<ShrType, N>::WriteSharesToAllParites(const std::array<std::vector<SemiShrType>, N>& shares,
 //                                                     const std::array<std::vector<SemiShrType>, N>& macs) {
@@ -170,31 +179,54 @@ GenerateAllPartiesShares(const std::vector<ClearType>& value) const {
 //     }
 // }
 
-
 template <IsSpdz2kShare ShrType, std::size_t N>
 void FakeParty<ShrType, N>::WriteSharesToAllParites(const std::array<std::vector<SemiShrType>, N>& shares) {
     for (std::size_t party_idx = 0; party_idx < N; ++party_idx) {
         auto& output_file = ithPartyFile(party_idx);
-        std::ranges::for_each(shares[party_idx], [&output_file](auto share) { output_file << share << '\n'; });
+        for (auto& share : shares[party_idx]) {
+            std::ostringstream oss;
+            oss << share << '\n';
+            auto str = oss.str();
+            total_bytes_written_ += str.size();  // 累加字节数
+            output_file << str;
+        }
+        //std::ranges::for_each(shares[party_idx], [&output_file](auto share) { output_file << share << '\n'; });
     }
 }
-
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 void FakeParty<ShrType, N>::WriteClearToIthParty(const std::vector<ClearType>& values, std::size_t party_id) {
     auto& output_file = ithPartyFile(party_id);
-    std::ranges::for_each(values, [&output_file](auto value) { output_file << value << '\n'; });
+    //std::ranges::for_each(values, [&output_file](auto value) { output_file << value << '\n'; });
+    for (const auto& val : values) {
+        std::ostringstream oss;
+        oss << val << '\n';
+        auto str = oss.str();
+        total_bytes_written_ += str.size();  // 累加通信代价
+        output_file << str;
+    }
 }
-
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 void FakeParty<ShrType, N>::WriteClearToAllParties(const std::vector<ClearType>& values) {
     for (std::size_t party_idx = 0; party_idx < N; ++party_idx) {
-        WriteClearToIthParty(values, party_idx);
+        //WriteClearToIthParty(values, party_idx);
+        auto& output_file = ithPartyFile(party_idx);
+        for (const auto& val : values) {
+            std::ostringstream oss;
+            oss << val << '\n';
+            auto str = oss.str();
+            total_bytes_written_ += str.size();  // 累加通信代价
+            output_file << str;
+        }
     }
 }
+template <IsSpdz2kShare ShrType, std::size_t N>
+void FakeParty<ShrType, N>::SimulateSendToOther(const std::vector<SemiShrType>& data) {
+    // 只累加通信字节数，不写入任何文件
+    total_bytes_written_ += data.size() * sizeof(SemiShrType);
+}
 
+} // namespace bioauth
 
-} // namespace md_ml
-
-#endif //MD_ML_FAKEPARTY_H
+#endif //BIOAUTH_FAKEPARTY_H

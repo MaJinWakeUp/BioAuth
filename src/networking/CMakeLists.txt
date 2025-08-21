@@ -3,11 +3,11 @@ set(SRC_NETWORKING
         Party.h
 )
 
-add_library(md-ml-networking ${SRC_NETWORKING})
+add_library(bioauth-networking ${SRC_NETWORKING})
 
 # For Windows, we need to link against ws2_32 and wsock32 for sockets
 if (WIN32)
-    target_link_libraries(md-ml-networking ws2_32 wsock32)
+    target_link_libraries(bioauth-networking ws2_32 wsock32)
 endif ()
 
-set(ONLINE_LIB ${ONLINE_LIB} md-ml-networking PARENT_SCOPE)
+set(ONLINE_LIB ${ONLINE_LIB} bioauth-networking PARENT_SCOPE)

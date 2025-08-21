@@ -1,13 +1,12 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_FAKECIRCUIT_H
-#define MD_ML_FAKECIRCUIT_H
+
+#ifndef BIOAUTH_FAKECIRCUIT_H
+#define BIOAUTH_FAKECIRCUIT_H
 
 
 #include <memory>
 #include <vector>
-#include <cstddef>
-
+#include <cstddef> 
 #include "share/IsSpdz2kShare.h"
 #include "fake-offline/FakeParty.h"
 #include "fake-offline/FakeGate.h"
@@ -24,9 +23,10 @@
 #include "fake-offline/FakeAvgPool2DGate.h"
 #include "fake-offline/FakeGtzGate.h"
 #include "fake-offline/FakeReLUGate.h"
+#include <map>
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 /// @brief A fake circuit that uses the fake offline protocol to compute the result
@@ -100,15 +100,32 @@ private:
     FakeParty<ShrType, N>& fake_party_;
     std::vector<std::shared_ptr<FakeGate<ShrType, N>>> gates_;
     std::vector<std::shared_ptr<FakeGate<ShrType, N>>> endpoints_;
+    std::map<std::string, int> gate_type_count_;
 };
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 void FakeCircuit<ShrType, N>::
 runOffline() {
+    using namespace std::chrono;
+    auto start = high_resolution_clock::now();
+
     for (const auto& gatePtr : endpoints_) {
         gatePtr->runOffline();
     }
+
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - start).count();
+
+    //std::cout << "===== Offline Phase Stats =====" << std::endl;
+    //std::cout << "Total offline time: " << duration << " ms" << std::endl;
+    //std::cout << "Gate counts:" << std::endl;
+    //for (const auto& [type, count] : gate_type_count_) {
+      //  std::cout << "  " << type << ": " << count << std::endl;
+    //}
+
+    //std::cout << "===============================" << std::endl;
+ 
 }
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -122,6 +139,7 @@ std::shared_ptr<FakeInputGate<ShrType, N>> FakeCircuit<ShrType, N>::
 input(std::size_t owner_id, std::size_t dim_row, std::size_t dim_col) {
     auto gate = std::make_shared<FakeInputGate<ShrType, N>>(fake_party_, dim_row, dim_col, owner_id);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -131,6 +149,7 @@ add(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
     const std::shared_ptr<FakeGate<ShrType, N>>& input_y) {
     auto gate = std::make_shared<FakeAddGate<ShrType, N>>(input_x, input_y);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -140,6 +159,7 @@ subtract(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
          const std::shared_ptr<FakeGate<ShrType, N>>& input_y) {
     auto gate = std::make_shared<FakeSubtractGate<ShrType, N>>(input_x, input_y);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -149,6 +169,7 @@ addConstant(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
             ClearType constant) {
     auto gate = std::make_shared<FakeAddConstantGate<ShrType, N>>(input_x, constant);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -158,6 +179,7 @@ multiply(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
          const std::shared_ptr<FakeGate<ShrType, N>>& input_y) {
     auto gate = std::make_shared<FakeMultiplyGate<ShrType, N>>(input_x, input_y);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -166,6 +188,7 @@ std::shared_ptr<FakeOutputGate<ShrType, N>> FakeCircuit<ShrType, N>::
 output(const std::shared_ptr<FakeGate<ShrType, N>>& input_x) {
     auto gate = std::make_shared<FakeOutputGate<ShrType, N>>(input_x);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     // TODO: shall we add the output gate to the endpoints?
     return gate;
 }
@@ -176,6 +199,7 @@ multiplyTrunc(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
               const std::shared_ptr<FakeGate<ShrType, N>>& input_y) {
     auto gate = std::make_shared<FakeMultiplyTruncGate<ShrType, N>>(input_x, input_y);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -185,6 +209,7 @@ elementMultiply(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
                 const std::shared_ptr<FakeGate<ShrType, N>>& input_y) {
     auto gate = std::make_shared<FakeElemMultiplyGate<ShrType, N>>(input_x, input_y);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -195,6 +220,7 @@ conv2D(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
        const Conv2DOp& op) {
     auto gate = std::make_shared<FakeConv2DGate<ShrType, N>>(input_x, input_y, op);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -205,6 +231,7 @@ conv2DTrunc(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
             const Conv2DOp& op) {
     auto gate = std::make_shared<FakeConv2DTruncGate<ShrType, N>>(input_x, input_y, op);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -214,6 +241,7 @@ avgPool2D(const std::shared_ptr<FakeGate<ShrType, N>>& input_x,
           const MaxPoolOp& op) {
     auto gate = std::make_shared<FakeAvgPool2DGate<ShrType, N>>(input_x, op);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -222,6 +250,7 @@ std::shared_ptr<FakeGtzGate<ShrType, N>> FakeCircuit<ShrType, N>::
 gtz(const std::shared_ptr<FakeGate<ShrType, N>>& input_x) {
     auto gate = std::make_shared<FakeGtzGate<ShrType, N>>(input_x);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
@@ -230,9 +259,10 @@ std::shared_ptr<FakeReLUGate<ShrType, N>> FakeCircuit<ShrType, N>::
 relu(const std::shared_ptr<FakeGate<ShrType, N>>& input_x) {
     auto gate = std::make_shared<FakeReLUGate<ShrType, N>>(input_x);
     gates_.push_back(gate);
+    gate_type_count_[typeid(*gate).name()]++;
     return gate;
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_FAKECIRCUIT_H
+#endif //BIOAUTH_FAKECIRCUIT_H

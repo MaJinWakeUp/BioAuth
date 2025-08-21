@@ -1,7 +1,7 @@
 // By Boshi Yuan
 
-#ifndef MD_ML_CONV2DGATE_H
-#define MD_ML_CONV2DGATE_H
+#ifndef BIOAUTH_CONV2DGATE_H
+#define BIOAUTH_CONV2DGATE_H
 
 #include <memory>
 #include <vector>
@@ -12,7 +12,7 @@
 #include "utils/linear_algebra.h"
 #include "utils/tensor.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class Conv2DGate : public Gate<ShrType> {
@@ -143,4 +143,4 @@ void Conv2DGate<ShrType>::doRunOnline() {
 }
 
 
-#endif //MD_ML_CONV2DGATE_H
+#endif //BIOAUTH_CONV2DGATE_H

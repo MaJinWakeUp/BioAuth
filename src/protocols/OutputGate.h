@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef OUTPUTGATE_H
 #define OUTPUTGATE_H
@@ -13,7 +12,7 @@
 #include "utils/linear_algebra.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class OutputGate : public Gate<ShrType> {
@@ -75,6 +74,6 @@ getClear() const {
     return std::vector<ClearType>(output_value_.begin(), output_value_.end());
 }
 
-} // md_ml
+} // bioauth
 
 #endif //OUTPUTGATE_H

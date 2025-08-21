@@ -1,7 +1,7 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_FAKEADDGATE_H
-#define MD_ML_FAKEADDGATE_H
+
+#ifndef BIOAUTH_FAKEADDGATE_H
+#define BIOAUTH_FAKEADDGATE_H
 
 #include <memory>
 #include <stdexcept>
@@ -11,7 +11,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -59,6 +59,6 @@ void FakeAddGate<ShrType, N>::doRunOffline() {
     this->fake_party().WriteSharesToAllParites(this->lambda_shr_mac());
 }
 
-} // namespace md_ml
+} // namespace 
 
-#endif //MD_ML_FAKEADDGATE_H
+#endif //BIOAUTH_FAKEADDGATE_H

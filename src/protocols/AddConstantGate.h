@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef ADDCONSTANTGATE_H
 #define ADDCONSTANTGATE_H
@@ -10,7 +10,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "utils/linear_algebra.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class AddConstantGate : public Gate<ShrType> {
@@ -47,6 +47,6 @@ void AddConstantGate<ShrType>::doRunOnline() {
     this->Delta_clear() = matrixAddConstant(this->input_x()->Delta_clear(), constant_);
 }
 
-} // md_ml
+} // bioauth
 
 #endif //ADDCONSTANTGATE_H

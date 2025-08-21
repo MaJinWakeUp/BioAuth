@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef RELUGATE_H
 #define RELUGATE_H
@@ -10,7 +10,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "utils/linear_algebra.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class Circuit;
@@ -54,6 +54,6 @@ void ReLUGate<ShrType>::doRunOnline() {
     this->Delta_clear() = this->circuit_.endpoints()[0]->Delta_clear();
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //RELUGATE_H

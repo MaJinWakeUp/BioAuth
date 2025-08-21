@@ -1,7 +1,6 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_PROTOCOLS_GATE_H
-#define MD_ML_PROTOCOLS_GATE_H
+#ifndef BIOAUTH_PROTOCOLS_GATE_H
+#define BIOAUTH_PROTOCOLS_GATE_H
 
 
 #include <vector>
@@ -12,7 +11,7 @@
 #include "protocols/PartyWithFakeOffline.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType>
@@ -95,12 +94,16 @@ void Gate<ShrType>::RunOffline() {
     if (this->evaluated_offline_)
         return;
 
+    
     if (input_x_ && !input_x_->evaluated_offline_)
-        input_x_->runOffline();
+        input_x_->RunOffline();
     if (input_y_ && !input_y_->evaluated_offline_)
-        input_y_->runOffline();
+        input_y_->RunOffline();
+
+
 
     this->doRunOffline();
+
 
     this->evaluated_offline_ = true;
 }
@@ -140,4 +143,4 @@ void Gate<ShrType>::RunOnline() {
 }
 
 
-#endif //MD_ML_PROTOCOLS_GATE_H
+#endif //BIOAUTH_PROTOCOLS_GATE_H

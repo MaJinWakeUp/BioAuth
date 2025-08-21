@@ -1,7 +1,7 @@
-// By Boshi Yuan
+// By sakara
 
-#ifndef MD_ML_ADDGATE_H
-#define MD_ML_ADDGATE_H
+#ifndef BIOAUTH_ADDGATE_H
+#define BIOAUTH_ADDGATE_H
 
 #include <memory>
 #include <vector>
@@ -10,7 +10,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "utils/linear_algebra.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class AddGate : public Gate<ShrType> {
@@ -52,6 +52,6 @@ void AddGate<ShrType>::doRunOnline() {
     this->Delta_clear() = matrixAdd(this->input_x()->Delta_clear(), this->input_y()->Delta_clear());
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_ADDGATE_H
+#endif //BIOAUTH_ADDGATE_H

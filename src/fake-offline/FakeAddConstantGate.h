@@ -11,7 +11,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 class FakeAddConstantGate : public FakeGate<ShrType, N> {
@@ -44,6 +44,6 @@ void FakeAddConstantGate<ShrType, N>::doRunOffline() {
     this->lambda_shr_mac() = this->input_x()->lambda_shr_mac();
 }
 
-} // namespace md_ml
+} // namespace 
 
 #endif //FAKEADDCONSTANTGATE_H

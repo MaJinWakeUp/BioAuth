@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef FAKERELUGATE_H
 #define FAKERELUGATE_H
@@ -11,7 +10,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -49,6 +48,6 @@ void FakeReLUGate<ShrType, N>::doRunOffline() {
     this->lambda_shr_mac() = this->circuit_.endpoints()[0]->lambda_shr_mac();
 }
 
-} // namespace md_ml
+} // namespace bioauthq
 
 #endif //FAKERELUGATE_H

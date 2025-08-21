@@ -1,8 +1,8 @@
-// By Boshi Yuan
+// By sakara
 /// @file
 
-#ifndef MD_ML_SPDZ2KSHARE_H
-#define MD_ML_SPDZ2KSHARE_H
+#ifndef BIOAUTH_SPDZ2KSHARE_H
+#define BIOAUTH_SPDZ2KSHARE_H
 
 #include <cstddef>
 #include <vector>
@@ -12,13 +12,13 @@
 #include "Mod2PowN.h"
 
 
-namespace md_ml {
+namespace bioauth{
 
 
 template <std::size_t K, std::size_t S>
 class Spdz2kShare {
-    static_assert(K <= 64, "K should be less than or equal to 64");
-    static_assert(S <= 64, "S should be less than or equal to 64");
+    static_assert(K <= 128, "K should be less than or equal to 128");
+    static_assert(S <= 128, "S should be less than or equal to 128");
 
 public:
     // We don't declare any data members here, instead the values are stored in gates
@@ -41,12 +41,18 @@ public:
 
 using Spdz2kShare32 = Spdz2kShare<32, 32>;
 using Spdz2kShare64 = Spdz2kShare<64, 64>;
+using Spdz2kShare128 = Spdz2kShare<128, 128>;
+
 
 
 template <std::size_t K, std::size_t S>
 typename Spdz2kShare<K, S>::SemiShrType Spdz2kShare<K, S>::
 RemoveUpperBits(SemiShrType value) {
-    return (value << S) >> S;
+    if constexpr (S > 0) {
+        return (value << S) >> S;
+    } else {
+        return value;
+    }
 }
 
 
@@ -82,6 +88,6 @@ RemoveUpperBitsInplace(std::vector<SemiShrType>& values) {
 }
 
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_SPDZ2KSHARE_H
+#endif //BIOAUTH_SPDZ2KSHARE_H

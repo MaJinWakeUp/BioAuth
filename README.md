@@ -1,56 +1,98 @@
-# MD-ML
+# BioAuth
 
-This is the repo of the paper `MD-ML: Super Fast Privacy-Preserving Machine Learning for Malicious Security with a Dishonest Majority`.
-We are currently engaged in extensive efforts to refactor our code and to write the documentation.
+FLAME: Flexible and Lightweight Biometric Authentication Scheme in Malicious
+Environments
 
-## Building
 
 ### Dependencies
 
-The code has been tested on Windows 11, Ubuntu 22.04, and macOS 14.5. Building the code requires the following dependencies:
+The code has been tested on macOS 15.3. Building the code requires the following dependencies:
 
-- A C++20-compatible compiler
-  - GCC-10 or later, Clang-10 or later, latest version of Apple-Clang.
-  - MSVC compiler is not supported, we recommend [MinGW-w64](https://www.mingw-w64.org/downloads/#mingw-builds) on Windows.
-- CMake (3.12 or later)
+- A C++20 (GCC 10+,Clang 12+)
+- CMake (3.12+)
 - The Boost Library (1.70.0 or later)
 - The Eigen Library (3.0 or later)
+- OpenSSL
+- GMP
+- GMPXX
+- pthread
 
-On Ubuntu, you can install all the dependencies via:
 
+##### on macOS
 ```shell
-sudo apt install build-essential cmake libboost-system-dev libeigen3-dev
+brew install cmake eigen boost openssl gmp
+```
 ```
 
-On macOS, you can install them using [HomeBrew](https://brew.sh):
-
+#### on Ubuntu
 ```shell
-xcode-select --install # install the command-line tools
-brew install cmake boost eigen
+sudo apt-get update
+sudo apt-get install build-essential cmake
+sudo apt-get install libeigen3-dev libboost-dev
+sudo apt-get install libssl-dev libgmp-dev libgmpxx4ldbl
+sudo apt-get install libpthread-stubs0-dev
 ```
 
-On Windows, the MSVC compiler is not supported, please use gcc or clang. We recommend using [MinGW-w64](https://www.mingw-w64.org/downloads/#mingw-builds). The steps for configuration is more complicated. Install [MinGW-w64](https://www.mingw-w64.org/downloads/#mingw-builds) and [CMake](https://cmake.org). Then download the source code of [Boost](https://www.boost.org) and [Eigen](https://eigen.tuxfamily.org). To install Eigen, follow [the installation instructions](https://gitlab.com/libeigen/eigen/-/blob/master/INSTALL?ref_type=heads#L19) "Method 2. Installing using CMake", you may need `-G "MinGW Makefiles"` option when invoking `cmake`. For Boost, just unpack the code, no building is required. Finally, Add the path of Boost and Eigen to environment variable `PATH`.
+### Building the Project
 
-### Building
-
-First clone the project and create the build directory:
 
 ```shell
-git clone https://github.com/NemoYuan2008/MD-ML.git
-cd MD-ML
-mkdir build && cd build
+git clone https://github.com/sakurasfy/BioAuth.git
+cd BioAuth
+mkdir -p build
+cd build
+cmake ..
+make -j
 ```
 
-On Linux and macOS, configure and build the project with:
+
+### Running Experiments
+1. Secure Inner Product for Database
+
+set vector length=1024 and dbsize =512 in experiments/dot-product-db/dot_product_db_configure.h
 
 ```shell
-cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build .
-```
+cd build/experiments/dot-product-db
 
-On Windows with MinGW-w64, you might need to specify  `-G "MinGW Makefiles"` option when invoking `cmake`:
+# offline
+sudo ./dot_product_db_offline_party_0
+sudo ./dot_product_db_offline_party_1
+
+# online
+sudo ./dot_product_db_party_0
+sudo ./dot_product_db_party_1
+
+```
+2. Secure Comparison
+
+set DEFAULT_ROUNDS=256 in experiments/secure-com/com_config.h
 
 ```shell
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
-cmake --build .
+cd build/experiments/secure-com
+
+# offline + online
+sudo ./com_party_0
+sudo ./com_party_1
+
 ```
+
+3. Secure Authentication
+
+set vector length=1024 and dbsize =512 in experiments/secure_authentication/secure_authentication_config.h
+
+
+```shell
+cd build/experiments/secure-authentication
+
+# offline + online
+sudo ./secure_authentication_party_0
+sudo ./secure_authentication_party_1
+
+
+## ⚠️ Important Notes
+
+### Network Simulation Requirements
+
+sudo privileges are required for network traffic control (tc commands)
+Network simulation modifies system network settings temporarily
+Experiments automatically clean up network configurations after completion

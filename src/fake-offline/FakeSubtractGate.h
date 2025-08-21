@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef MD_ML_FAKESUBTRACTGATE_H
 #define MD_ML_FAKESUBTRACTGATE_H
@@ -11,7 +10,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -58,7 +57,7 @@ void FakeSubtractGate<ShrType, N>::doRunOffline() {
 }
 
 
-} // namespace md_ml
+} // namespace bioauth
 
 
-#endif //MD_ML_FAKESUBTRACTGATE_H
+#endif //BIOAUTH_FAKESUBTRACTGATE_H

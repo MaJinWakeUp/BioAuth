@@ -1,7 +1,7 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_FAKEMULTIPLYGATE_H
-#define MD_ML_FAKEMULTIPLYGATE_H
+
+#ifndef BIOAUTH_FAKEMULTIPLYGATE_H
+#define BIOAUTH_FAKEMULTIPLYGATE_H
 
 
 #include <memory>
@@ -15,7 +15,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -94,9 +94,16 @@ void FakeMultiplyGate<ShrType, N>::doRunOffline() {
 
     this->fake_party().WriteClearToAllParties(delta_x_clear);
     this->fake_party().WriteClearToAllParties(delta_y_clear);
+    // 模拟 MAC check 通信（不验证，只统计）
+    std::vector<SemiShrType> alpha_mul_lambda(this->lambda_shr()[0].size());
+    for (size_t i = 0; i < alpha_mul_lambda.size(); ++i) {
+        alpha_mul_lambda[i] = this->fake_party().mac_key(0) * this->lambda_shr()[0][i];
+    }
+
+    this->fake_party().SimulateSendToOther(alpha_mul_lambda);
+    this->fake_party().SimulateSendToOther(this->lambda_shr_mac()[0]);
 }
 
 
-} // namespace md_ml
-
-#endif //MD_ML_FAKEMULTIPLYGATE_H
+} // namespace bioauth
+#endif //BIOAUTH_FAKEMULTIPLYGATE_H

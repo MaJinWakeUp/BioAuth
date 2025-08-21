@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef INPUTGATE_H
 #define INPUTGATE_H
@@ -10,7 +9,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "utils/linear_algebra.h"
 
-namespace md_ml {
+namespace bioauth{
 
 template <IsSpdz2kShare ShrType>
 class InputGate : public Gate<ShrType> {
@@ -78,6 +77,6 @@ void InputGate<ShrType>::doRunOnline() {
     }
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //INPUTGATE_H

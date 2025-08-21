@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef FAKEAVGPOOL2DGATE_H
 #define FAKEAVGPOOL2DGATE_H
@@ -16,7 +16,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 class FakeAvgPool2DGate : public FakeGate<ShrType, N> {
@@ -65,7 +65,7 @@ void FakeAvgPool2DGate<ShrType, N>::doRunOffline() {
     this->fake_party().WriteSharesToAllParites(lambda_pre_trunc_shr_mac);
 }
 
-} // namespace md_ml
+} // namespace bioaut
 
 
 #endif //FAKEAVGPOOL2DGATE_H

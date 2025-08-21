@@ -1,7 +1,6 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_FAKECONV2DGATE_H
-#define MD_ML_FAKECONV2DGATE_H
+#ifndef BIOAUTH_FAKECONV2DGATE_H
+#define BIOAUTH_FAKECONV2DGATE_H
 
 #include <memory>
 #include <vector>
@@ -15,7 +14,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -93,7 +92,7 @@ void FakeConv2DGate<ShrType, N>::doRunOffline() {
     this->fake_party().WriteClearToAllParties(delta_y_clear);
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 
-#endif //MD_ML_FAKECONV2DGATE_H
+#endif //BIOAUTH_FAKECONV2DGATE_H

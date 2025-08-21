@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef FAKEELEMMULTIPLICATIONGATE_H
 #define FAKEELEMMULTIPLICATIONGATE_H
@@ -14,7 +13,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "fake-offline/FakeGate.h"
 
-namespace md_ml {
+namespace bioauth {
 
 
 /// @brief Fake offline element-wise multiplication gate (no truncation)
@@ -88,6 +87,6 @@ void FakeElemMultiplyGate<ShrType, N>::doRunOffline() {
     this->fake_party().WriteClearToAllParties(delta_y_clear);
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //FAKEELEMMULTIPLICATIONGATE_H

@@ -1,4 +1,4 @@
-// By Boshi Yuan
+// 
 
 #include "Party.h"
 
@@ -13,7 +13,7 @@
 #include "utils/uint128_io.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 Party::Party(std::size_t p_my_id, std::size_t p_num_parties, std::size_t p_port)
     : my_id_(p_my_id), num_parties_(p_num_parties), port_base_(p_port) {
@@ -120,7 +120,7 @@ void Party::ConnectHandler(const boost::system::error_code& ec, std::size_t to_i
         send_sockets_[to_id].close();
     }
 
-    timers_[to_id].expires_from_now(boost::asio::chrono::seconds(kRetryAfterSeconds));
+    timers_[to_id].expires_after(boost::asio::chrono::seconds(kRetryAfterSeconds));
     timers_[to_id].async_wait([to_id, this](const boost::system::error_code&) {
         this->TryConnect(to_id);
     });
@@ -194,4 +194,4 @@ int Party::ReceiveInt(std::size_t from_id) {
 // template std::vector<uint64_t> Party::ReceiveVec<uint64_t>(std::size_t, std::size_t);
 // template std::vector<__uint128_t> Party::ReceiveVec<__uint128_t>(std::size_t, std::size_t);
 
-} // namespace md_ml
+} // namespace bioauth

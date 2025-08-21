@@ -1,16 +1,16 @@
-// By Boshi Yuan
+
 /// @file
 /// Defines IO operators for __uint128_t
 
-#ifndef MD_ML_UINT128_IO_H
-#define MD_ML_UINT128_IO_H
+#ifndef BIOAUTH_UINT128_IO_H
+#define BIOAUTH_UINT128_IO_H
 
 #include <iostream>
 #include <cstdint>
 #include <string>
 #include <stdexcept>
 
-namespace md_ml {
+namespace bioauth {
 
 inline
 std::string Uint128ToString(__uint128_t x) {
@@ -61,5 +61,5 @@ std::istream& operator>>(std::istream& is, __uint128_t& x) {
 }
 
 
-} // namespace md_ml
-#endif //MD_ML_UINT128_IO_H
+} // namespace bioauth
+#endif //BIOAUTH_UINT128_IO_H

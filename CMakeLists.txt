@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(MD-ML)
+project(BioAuth)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -40,11 +40,12 @@ add_compile_definitions(FAKE_OFFLINE_DIR="${FAKE_OFFLINE_DIR}")
 
 # Macros for debugging
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_compile_definitions(MD_ML_DEBUG)
-    add_compile_definitions(MD_ML_DEBUG_ASIO)
+    add_compile_definitions(BIOAUTH_DEBUG)
+    add_compile_definitions(BIOAUTH_DEBUG_ASIO)
 endif ()
 
 add_subdirectory(src/networking)
+
 
 set(SRC_SHARE
         src/share/Spdz2kShare.h
@@ -110,8 +111,37 @@ set(SRC_FILES
 set(SRC_TIMER
         src/utils/Timer.h
         src/utils/Timer.cpp)
-add_library(md-ml-timer ${SRC_TIMER})
-list(APPEND ONLINE_LIB md-ml-timer)
+add_library(bioauth-timer ${SRC_TIMER})
+list(APPEND ONLINE_LIB bioauth-timer)
+
+
+# FSS
+# 查找OpenSSL (crypto和ssl)
+find_package(OpenSSL REQUIRED)
+list(APPEND ONLINE_LIB OpenSSL::SSL OpenSSL::Crypto)
+list(APPEND FAKE_OFFLINE_LIB OpenSSL::SSL OpenSSL::Crypto)
+
+# GMP,GMPXX
+find_library(GMP_LIB gmp REQUIRED)
+find_library(GMPXX_LIB gmpxx REQUIRED)
+list(APPEND ONLINE_LIB ${GMP_LIB} ${GMPXX_LIB})
+list(APPEND FAKE_OFFLINE_LIB ${GMP_LIB} ${GMPXX_LIB})
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(FSS_COMPILE_FLAGS 
+        -fomit-frame-pointer 
+        -fno-strict-aliasing 
+        -pedantic 
+        -Wunreachable-code 
+        -Wmissing-declarations 
+        -Wunused-function 
+        -Wno-overlength-strings 
+        -Wno-deprecated-declarations
+    )
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+        list(APPEND FSS_COMPILE_FLAGS -arch arm64)
+    endif()
+endif()
 
 add_subdirectory(experiments)
 

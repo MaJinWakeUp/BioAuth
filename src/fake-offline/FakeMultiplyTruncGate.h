@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef FAKEMULTIPLYTRUNCGATE_H
 #define FAKEMULTIPLYTRUNCGATE_H
@@ -16,7 +16,7 @@
 #include "utils/fixed_point.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 class FakeMultiplyTruncGate : public FakeMultiplyGate<ShrType, N> {
@@ -72,7 +72,7 @@ void FakeMultiplyTruncGate<ShrType, N>::doRunOffline() {
     lambda_prime_shr_mac.swap(this->lambda_shr_mac());
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 
 #endif //FAKEMULTIPLYTRUNCGATE_H

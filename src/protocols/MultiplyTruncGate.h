@@ -1,7 +1,7 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_MULTIPLYTRUNCGATE_H
-#define MD_ML_MULTIPLYTRUNCGATE_H
+
+#ifndef BIOAUTH_MULTIPLYTRUNCGATE_H
+#define BIOAUTH_MULTIPLYTRUNCGATE_H
 
 
 #include <memory>
@@ -14,7 +14,7 @@
 #include "utils/fixed_point.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class MultiplyTruncGate : public MultiplyGate<ShrType> {
@@ -72,6 +72,6 @@ void MultiplyTruncGate<ShrType>::doRunOnline() {
     truncateClearVecInplace(this->Delta_clear());
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_MULTIPLYTRUNCGATE_H
+#endif //BIOAUTH_MULTIPLYTRUNCGATE_H

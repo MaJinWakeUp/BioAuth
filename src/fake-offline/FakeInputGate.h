@@ -1,7 +1,7 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_FAKEINPUTGATE_H
-#define MD_ML_FAKEINPUTGATE_H
+
+#ifndef BIOAUTH_FAKEINPUTGATE_H
+#define BIOAUTH_FAKEINPUTGATE_H
 
 #include <memory>
 #include <algorithm>
@@ -11,7 +11,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <IsSpdz2kShare ShrType, std::size_t N>
@@ -58,6 +58,6 @@ void FakeInputGate<ShrType, N>::doRunOffline() {
 }
 
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_FAKEINPUTGATE_H
+#endif //BIOAUTH_FAKEINPUTGATE_H

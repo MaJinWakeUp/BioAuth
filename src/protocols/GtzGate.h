@@ -13,7 +13,7 @@
 #include "utils/linear_algebra.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class GtzGate : public Gate<ShrType> {
@@ -437,6 +437,6 @@ CarryOutAux(std::vector<std::bitset<sizeof(ClearType) * 8>> p,
     }
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //GTZGATE_H

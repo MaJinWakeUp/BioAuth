@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef FAKECONV2DTRUNCGATE_H
 #define FAKECONV2DTRUNCGATE_H
@@ -13,7 +12,7 @@
 #include "fake-offline/FakeConv2DGate.h"
 #include "utils/fixed_point.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 class FakeConv2DTruncGate : public FakeConv2DGate<ShrType, N> {
@@ -68,6 +67,6 @@ void FakeConv2DTruncGate<ShrType, N>::doRunOffline() {
     lambda_prime_shr_mac.swap(this->lambda_shr_mac());
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //FAKECONV2DTRUNCGATE_H

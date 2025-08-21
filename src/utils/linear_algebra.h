@@ -1,7 +1,7 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_LINEAR_ALGEBRA_H
-#define MD_ML_LINEAR_ALGEBRA_H
+
+#ifndef BIOAUTH_LINEAR_ALGEBRA_H
+#define BIOAUTH_LINEAR_ALGEBRA_H
 
 
 #include <vector>
@@ -11,7 +11,7 @@
 
 #include <Eigen/Core>
 
-namespace md_ml {
+namespace bioauth {
 
 // For matrix addtion, subtraction, and scalar product, we can use
 // 1. std::transform
@@ -165,7 +165,7 @@ std::vector<T> matrixMultiply(const std::vector<T>& lhs, const std::vector<T>& r
 }
 
 
-} // namespace md_ml
+} // namespace bioauth
 
 
-#endif //MD_ML_LINEAR_ALGEBRA_H
+#endif //BIOAUTH_LINEAR_ALGEBRA_H

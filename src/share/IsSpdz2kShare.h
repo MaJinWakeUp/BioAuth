@@ -1,9 +1,7 @@
-// By Boshi Yuan
-/// @file
-/// Defines a concept to check if a type is an instance of Spdz2kShare
 
-#ifndef MD_ML_ISSPDZ2KSHARE_H
-#define MD_ML_ISSPDZ2KSHARE_H
+
+#ifndef BIOAUTH_ISSPDZ2KSHARE_H
+#define BIOAUTH_ISSPDZ2KSHARE_H
 
 #include <type_traits>
 #include <concepts>
@@ -11,7 +9,7 @@
 #include "share/Spdz2kShare.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 template <typename>
@@ -25,5 +23,5 @@ template <typename T>
 concept IsSpdz2kShare = is_spdz2k_share<T>::value;
 
 
-} // namespace md_ml
-#endif //MD_ML_ISSPDZ2KSHARE_H
+} // namespace bioauth
+#endif //BIOAUTH_ISSPDZ2KSHARE_H

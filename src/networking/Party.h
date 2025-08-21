@@ -1,7 +1,7 @@
-// By Boshi Yuan
+// by sakara
 
-#ifndef MD_ML_PARTY_H
-#define MD_ML_PARTY_H
+#ifndef BIOAUTH_PARTY_H
+#define BIOAUTH_PARTY_H
 
 
 #include <iostream>
@@ -18,7 +18,7 @@
 #include "utils/uint128_io.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 
 class Party {
@@ -54,7 +54,16 @@ public:
 
     [[nodiscard]] std::size_t my_id() const { return my_id_; }
 
-    [[nodiscard]] uint64_t bytes_sent() const { return bytes_sent_; }
+    [[nodiscard]] uint64_t bytes_sent() const { 
+        return bytes_sent_;
+
+    }
+    [[nodiscard]] uint64_t bytes_sent_actual() const { 
+        return comm_actual_;
+
+    }
+    mutable uint64_t comm_actual_ = 0;
+    //mutable uint64_t comm_after_ = 0;
 
 private:
     [[nodiscard]] uint16_t WhichPort(std::size_t from_id, std::size_t to_id) const;
@@ -83,6 +92,7 @@ private:
     std::chrono::steady_clock::time_point start_time_, stop_time_;
 
     mutable std::mutex cerr_mutex_;
+
 };
 
 
@@ -101,23 +111,22 @@ template <std::integral T>
 inline void Party::Send(std::size_t to_id, T message) {
     CheckID(to_id);
     bytes_sent_ += boost::asio::write(send_sockets_[to_id], boost::asio::buffer(&message, sizeof(message)));
-#ifdef MD_ML_DEBUG_ASIO
     std::lock_guard cerr_lock(cerr_mutex_);
-    std::cerr << "Party " << my_id_ << " sent integer " << message << " to party " << to_id << '\n';
-#endif
+    //std::cerr << "Party " << my_id_ << " sent integer " << message << " to party " << to_id << '\n';
 }
 
 
 template <std::integral T>
 T Party::Receive(std::size_t from_id) {
     CheckID(from_id);
+    //std::cout<<"from id="<<from_id<<std::endl;
     T message;
     boost::asio::read(receive_sockets_[from_id], boost::asio::buffer(&message, sizeof(message)));
+    //std::cerr << " message=" << message << '\n';
 
-#ifdef MD_ML_DEBUG_ASIO
+
     std::lock_guard cerr_lock(cerr_mutex_);
-    std::cerr << "Party " << my_id_ << " received integer " << message << " from party " << from_id << '\n';
-#endif
+    //std::cerr << "Party " << my_id_ << " received integer " << message << " from party " << from_id << '\n';
 
     return message;
 }
@@ -127,13 +136,13 @@ template <std::integral T>
 void Party::SendVec(std::size_t to_id, const std::vector<T>& message) {
     CheckID(to_id);
     bytes_sent_ += boost::asio::write(send_sockets_[to_id], boost::asio::buffer(message));
-#ifdef MD_ML_DEBUG_ASIO
+#ifdef BIOAUTH_DEBUG_ASIO
     std::lock_guard cerr_lock(cerr_mutex_);
-    std::cerr << "Party " << my_id_ << " sent vector to party " << to_id << '\n';
-    std::ranges::for_each(message, [](T element) {
-        std::cerr << element << ' ';
-    });
-    std::cerr << '\n';
+    //std::cerr << "Party " << my_id_ << " sent vector to party " << to_id << '\n';
+    //std::ranges::for_each(message, [](T element) {
+       // std::cerr << element << ' ';
+    //});
+    //std::cerr << '\n';
 #endif
 }
 
@@ -144,13 +153,13 @@ std::vector<T> Party::ReceiveVec(std::size_t from_id, std::size_t num_elements) 
     std::vector<T> message(num_elements);
     boost::asio::read(receive_sockets_[from_id], boost::asio::buffer(message));
 
-#ifdef MD_ML_DEBUG_ASIO
+#ifdef BIOAUTH_DEBUG_ASIO
     std::lock_guard cerr_lock(cerr_mutex_);
-    std::cerr << "Party " << my_id_ << " received vector from party " << from_id << '\n';
-    std::ranges::for_each(message, [](T element) {
-        std::cerr << element << ' ';
-    });
-    std::cerr << '\n';
+    //std::cerr << "Party " << my_id_ << " received vector from party " << from_id << '\n';
+    //std::ranges::for_each(message, [](T element) {
+        //std::cerr << element << ' ';
+    //});
+    //std::cerr << '\n';
 #endif
 
     return message;
@@ -168,7 +177,7 @@ std::vector<T> Party::ReceiveVecFromOther(std::size_t num_elements) {
 }
 
 
-} // namespace md_ml
+} // namespace bioauth
 
 
-#endif //MD_ML_PARTY_H
+#endif //BIOAUTH_PARTY_H

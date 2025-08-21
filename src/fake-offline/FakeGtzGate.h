@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef FAKEGTZGATE_H
 #define FAKEGTZGATE_H
@@ -12,7 +11,7 @@
 #include "fake-offline/FakeGate.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 class FakeGtzGate : public FakeGate<ShrType, N> {
@@ -75,6 +74,6 @@ void FakeGtzGate<ShrType, N>::doRunOffline() {
 }
 
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //FAKEGTZGATE_H

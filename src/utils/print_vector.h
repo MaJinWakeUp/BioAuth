@@ -1,14 +1,14 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_UTILS_PRINT_VECTOR_H
-#define MD_ML_UTILS_PRINT_VECTOR_H
+
+#ifndef BIOAUTH_UTILS_PRINT_VECTOR_H
+#define BIOAUTH_UTILS_PRINT_VECTOR_H
 
 
 #include <iostream>
 #include <vector>
 #include <string>
 
-namespace md_ml {
+namespace bioauth {
 
 template <typename T>
 void PrintVector(const std::vector<T>& vec) {
@@ -28,6 +28,6 @@ std::string VectorToString(const std::vector<T>& vec) {
     return result;
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_UTILS_PRINT_VECTOR_H
+#endif //BIOAUTH_UTILS_PRINT_VECTOR_H

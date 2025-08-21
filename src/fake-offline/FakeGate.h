@@ -1,7 +1,6 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_FAKEGATE_H
-#define MD_ML_FAKEGATE_H
+#ifndef BIOAUTH_FAKEGATE_H
+#define BIOAUTH_FAKEGATE_H
 
 #include <memory>
 #include <vector>
@@ -13,7 +12,7 @@
 #include "fake-offline/FakeParty.h"
 
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType, std::size_t N>
 class FakeGate {
@@ -102,6 +101,6 @@ void FakeGate<ShrType, N>::runOffline() {
     this->evaluated_offline_ = true;
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
-#endif //MD_ML_FAKEGATE_H
+#endif //BIOAUTH_FAKEGATE_H

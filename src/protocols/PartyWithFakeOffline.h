@@ -1,7 +1,6 @@
-// By Boshi Yuan
 
-#ifndef MD_ML_PartyWithFakeOffline_H
-#define MD_ML_PartyWithFakeOffline_H
+#ifndef BIOAUTH_PartyWithFakeOffline_H
+#define BIOAUTH_PartyWithFakeOffline_H
 
 
 #include <string>
@@ -12,7 +11,7 @@
 #include "networking/Party.h"
 #include "utils/uint128_io.h"
 
-namespace md_ml {
+namespace bioauth{
 
 template <IsSpdz2kShare ShrType>
 class PartyWithFakeOffline : public Party {
@@ -73,7 +72,7 @@ ReadClear(std::size_t num_elements) {
     return clear;
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 
-#endif //MD_ML_PartyWithFakeOffline_H
+#endif //BIOAUTH_PartyWithFakeOffline_H

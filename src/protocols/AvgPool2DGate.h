@@ -1,4 +1,4 @@
-// By Boshi Yuan
+
 
 #ifndef AVGPOOL2DGATE_H
 #define AVGPOOL2DGATE_H
@@ -14,7 +14,7 @@
 #include "utils/tensor.h"
 #include "utils/fixed_point.h"
 
-namespace md_ml {
+namespace bioauth{
 
 template <IsSpdz2kShare ShrType>
 class AvgPool2DGate : public Gate<ShrType> {
@@ -93,6 +93,6 @@ void AvgPool2DGate<ShrType>::doRunOnline() {
     truncateClearVecInplace(this->Delta_clear());
 }
 
-} // namespace md_ml
+} // namespace bioauth
 
 #endif //AVGPOOL2DGATE_H

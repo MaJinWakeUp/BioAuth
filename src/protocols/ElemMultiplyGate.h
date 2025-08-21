@@ -1,4 +1,4 @@
-// By Boshi Yuan
+// By sakara
 
 #ifndef ELEMMULTIPLYGATE_H
 #define ELEMMULTIPLYGATE_H
@@ -12,7 +12,7 @@
 #include "share/IsSpdz2kShare.h"
 #include "utils/linear_algebra.h"
 
-namespace md_ml {
+namespace bioauth {
 
 template <IsSpdz2kShare ShrType>
 class ElemMultiplyGate : public Gate<ShrType> {
@@ -138,6 +138,6 @@ void ElemMultiplyGate<ShrType>::doRunOnline() {
     delta_y_clear_.shrink_to_fit();
 }
 
-} // md_ml
+} // bioauth
 
 #endif //ELEMMULTIPLYGATE_H
