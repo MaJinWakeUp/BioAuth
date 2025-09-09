@@ -38,7 +38,7 @@ All experiments test performance under 4 different network conditions:
 | MAN     | 856.51              | 199.62             |
 | WAN     | 2922.81             | 199.62             |
 
-<img src="graph/image.png" width="600" alt="Secure Authentication Performance">
+<img src="graph/image.png" width="200" alt="Secure Authentication Performance">
 
 ### Secure Dot Product Online (Vector Length: 1024,Database Size: 512)
 | Network | Party 0(Clent) Time (ms) | Party 1(Dataset) Time (ms) |  Communication (MB)|
@@ -47,7 +47,7 @@ All experiments test performance under 4 different network conditions:
 | LAN     | 177.00                   | 154.00                     | 0.01               |
 | MAN     | 776.00                   | 1006.00                    | 0.01               |
 | WAN     | 2851.00                  | 3599.00                    | 0.01               |
-<img src="graph/dotonline.png" width="600" alt="Secure Dot Product Online Performance">
+<img src="graph/dotonline.png" width="200" alt="Secure Dot Product Online Performance">
 
 ### Secure Dot Product Simulated Offline (Vector Length: 1024,Database Size: 256)
  *Note: Simulated offline phase involves computationally intensive preprocessing with high communication overhead.*
@@ -57,7 +57,7 @@ All experiments test performance under 4 different network conditions:
 | LAN     | 1.12                  | 2.5               |
 | MAN     | 8.98                  | 2.5               |
 | WAN     | 15.75                 | 2.5               |
-<img src="graph/dotoffline.png" width="600" alt="Secure Dot Product Offline Performance">
+<img src="graph/dotoffline.png" width="200" alt="Secure Dot Product Offline Performance">
 
 ### Secure Comparison (Rounds: 512)
 | Network | Offline (Party 0) Time (ms) | Communication (MB) | Online (Party1) Time (ms) | Communication (MB) |
@@ -66,8 +66,8 @@ All experiments test performance under 4 different network conditions:
 | LAN     | 82.84                      | 0.56               | 19.33                      | 0.0117             |
 | MAN     | 84.37                      | 0.56               | 19.95                      | 0.0117             |
 | WAN     | 89.52                      | 0.56               | 20.65                      | 0.0117             |
-<img src="graph/comoffline.png" width="600" alt="Secure Comparison Offline Performance">
-<img src="graph/comonline.png" width="600" alt="Secure Comparison Online Performance">
+<img src="graph/comoffline.png" width="200" alt="Secure Comparison Offline Performance">
+<img src="graph/comonline.png" width="200" alt="Secure Comparison Online Performance">
 
 
 *Note: Performance may vary based on system specifications and network conditions.*
