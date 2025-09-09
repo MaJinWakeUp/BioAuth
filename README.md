@@ -92,7 +92,6 @@ The code has been tested on macOS 15.3. Building the code requires the following
 ```shell
 brew install cmake eigen boost openssl gmp
 ```
-```
 
 #### on Ubuntu
 ```shell
