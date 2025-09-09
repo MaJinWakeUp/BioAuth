@@ -23,7 +23,7 @@ Run specific experiments:
 
 ## Network Testing
 All experiments test performance under 4 different network conditions:
-- **BASELINE**: No network simulation (optimal performance)
+- **BASELINE**: No network simulation 
 - **LAN**: 0.1ms latency, 1Gbps bandwidth
 - **MAN**: 6ms latency, 100Mbps bandwidth  
 - **WAN**: 80ms latency, 40Mbps bandwidth
