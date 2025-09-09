@@ -1,5 +1,3 @@
-// By Boshi Yuan
-
 #ifndef FAKEADDCONSTANTGATE_H
 #define FAKEADDCONSTANTGATE_H
 

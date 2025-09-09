@@ -1,4 +1,3 @@
-// By sakara
 /// @file
 
 #ifndef BIOAUTH_SPDZ2KSHARE_H

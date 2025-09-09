@@ -1,7 +1,27 @@
 # BioAuth
 
-FLAME: Flexible and Lightweight Biometric Authentication Scheme in Malicious
-Environments
+FLAME: Flexible and Lightweight Biometric Authentication Scheme in Malicious Environments
+
+## Quick Start
+
+```bash
+./RUN.sh
+```
+
+Requires Docker environment.
+
+## Configuration
+- Vector Length: 1024
+- Database Size: 512
+- Security Parameter: Spdz2k 64-bit shares
+- FSS Parameter: 10-bit, 2-party
+
+## Experiment Results
+After execution, view performance metrics:
+- Similarity computation time
+- Communication overhead
+- FSS key generation time
+- Vector selection time
 
 
 ### Dependencies

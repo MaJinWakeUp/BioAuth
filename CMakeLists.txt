@@ -144,5 +144,3 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 add_subdirectory(experiments)
-
-add_executable(dummy dummy.cpp ${SRC_FILES})

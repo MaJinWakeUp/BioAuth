@@ -1,4 +1,3 @@
-// by sakara
 
 #ifndef BIOAUTH_PARTY_H
 #define BIOAUTH_PARTY_H

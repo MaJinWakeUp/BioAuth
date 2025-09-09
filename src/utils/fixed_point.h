@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef BIOAUTH_FIXED_POINT_H
 #define BIOAUTH_FIXED_POINT_H

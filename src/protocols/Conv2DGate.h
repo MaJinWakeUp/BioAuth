@@ -1,4 +1,3 @@
-// By Boshi Yuan
 
 #ifndef BIOAUTH_CONV2DGATE_H
 #define BIOAUTH_CONV2DGATE_H

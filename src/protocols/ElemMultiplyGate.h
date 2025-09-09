@@ -1,5 +1,3 @@
-// By sakara
-
 #ifndef ELEMMULTIPLYGATE_H
 #define ELEMMULTIPLYGATE_H
 

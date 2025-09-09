@@ -1,5 +1,3 @@
-// By sakara
-
 #ifndef BIOAUTH_ADDGATE_H
 #define BIOAUTH_ADDGATE_H
 

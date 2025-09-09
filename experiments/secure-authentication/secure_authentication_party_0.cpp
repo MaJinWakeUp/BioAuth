@@ -1,5 +1,4 @@
 //by sakara
-#include "secure_authentication_config.h"
 #include "share/Spdz2kShare.h"
 #include "protocols/Circuit.h"
 #include "utils/print_vector.h"
@@ -7,6 +6,7 @@
 #include "networking/fss-common.h"
 #include "networking/fss-client.h"
 #include "networking/fss-server.h"
+#include "secure_authentication_config.h"
 #include <chrono>
 #include <iostream>
 #include <vector>
@@ -31,15 +31,10 @@ int main() {
     using ShrType = Spdz2kShare64;
     using ClearType = ShrType::ClearType;
     
-    std::cout << "=== Vector Selection Party 0 (Client) ===" << std::endl;
-    std::cout << "Vector length: " << dim << std::endl;
-    std::cout << "Database size: " << dbsize << std::endl;
-    std::cout << std::endl;
-    
     for (const auto& net : networks) {
         try {
-            printNetworkTestHeader(net);
-            setupNetwork(net);
+            bool network_configured = setupNetwork(net);
+            printNetworkTestHeader(net, network_configured);
             
             std::cout << "Phase 1 ..." << std::endl;
             
@@ -227,7 +222,7 @@ int main() {
             std::cout << "Authentication" << (authentication_passed ? " PASSED!" : "FAILED~") << std::endl;
             //std::cout << "Maximum Similarity Score: " << max_value << std::endl;
             //std::cout << "Matching Database Index: " << max_index << std::endl;
-            //std::cout << "Identity Match (η): " << eta << std::endl;
+            std::cout << "vector length: " << dim << "     database size: " << dbsize << std::endl;
             std::cout << "Total Processing Time: " << std::fixed << std::setprecision(2) << total_time << " ms" << std::endl;
             std::cout << "Total Communication: " << std::fixed << std::setprecision(2) << total_comm_kb << " KB" << std::endl;
             

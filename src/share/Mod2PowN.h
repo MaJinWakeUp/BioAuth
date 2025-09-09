@@ -1,5 +1,3 @@
-// by sakara
-
 #ifndef BIOAUTH_MOD2POWN_H
 #define BIOAUTH_MOD2POWN_H
 

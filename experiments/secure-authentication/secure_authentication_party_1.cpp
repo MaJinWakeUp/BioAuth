@@ -1,5 +1,4 @@
 // by sakara
-#include "secure_authentication_config.h"
 #include "share/Spdz2kShare.h"
 #include "protocols/Circuit.h"
 #include "utils/print_vector.h"
@@ -7,6 +6,7 @@
 #include "networking/fss-common.h"
 #include "networking/fss-server.h"
 #include "networking/fss-client.h"
+#include "secure_authentication_config.h"
 #include <chrono>
 #include <thread>
 #include <iostream>
@@ -27,16 +27,12 @@ int main() {
     
     auto networks = getNetworkConfigurations();
     
-    std::cout << "=== Vector Selection Party 1 (Server) ===" << std::endl;
-    std::cout << "Vector length: " << dim << std::endl;
-    std::cout << "Database size: " << dbsize << std::endl;
-    std::cout << std::endl;
-    
     for (size_t test = 0; test < networks.size(); test++) {
         const auto& net = networks[test];
         
         try {
-            //std::cout << "Testing network: " << net.description << std::endl;
+            bool network_configured = setupNetwork(net);
+            printNetworkTestHeader(net, network_configured);
             
             using ShrType = Spdz2kShare64;
             using ClearType = ShrType::ClearType;
@@ -48,9 +44,9 @@ int main() {
             Circuit<ShrType> circuit_dotproduct(party_dotproduct);
             
             // circuit
-            auto query_vector = circuit_dotproduct.input(0, 1, dim);  // 查询向量 (Party 0 输入)
-            auto database_vectors = circuit_dotproduct.input(1, dim, dbsize);  // 数据库向量 (Party 1 输入)
-            auto dot_products = circuit_dotproduct.multiply(query_vector, database_vectors);  // 计算内积
+            auto query_vector = circuit_dotproduct.input(0, 1, dim);  // query vector Party0
+            auto database_vectors = circuit_dotproduct.input(1, dim, dbsize);  //database Party1
+            auto dot_products = circuit_dotproduct.multiply(query_vector, database_vectors);  // dotproduct
             auto dot_product_results = circuit_dotproduct.output(dot_products);
             circuit_dotproduct.addEndpoint(dot_product_results);
             
@@ -88,7 +84,7 @@ int main() {
             while (current_round_candidates > 1) {
                 size_t comparisons_this_round = current_round_candidates / 2;
                 total_comparisons += comparisons_this_round;
-                current_round_candidates = (current_round_candidates + 1) / 2; // 向上取整
+                current_round_candidates = (current_round_candidates + 1) / 2; // 
             }
             
             //std::cout << "  Expected total comparisons: " << total_comparisons << std::endl;
