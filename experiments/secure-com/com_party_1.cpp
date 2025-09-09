@@ -13,12 +13,12 @@ int main()
 {
     auto networks = getNetworkConfigurations();
     
-    cout << "=== Secure comparison Party_1 ===" << endl;
+    cout << "----- Secure comparison Party_1 -----" << endl;
     
     for (const auto& net : networks) {
         try {
-            printNetworkTestHeader(net);
-            setupNetwork(net);
+            bool network_configured = setupNetwork(net);
+            printNetworkTestHeader(net, network_configured);
             
             // Set up variables using config constants
             Fss fClient, fServer;
@@ -30,24 +30,17 @@ int main()
             // Initialize client and server
             initializeClient(&fClient, FSS_Config::FSS_NUM_BITS, FSS_Config::FSS_NUM_PARTIES);
             
-            cout << "Generating keys for evaluation..." << endl;
-            // Generate keys (in real system, these would come from party 0)
+            // Generate keys and initialize server
             generateKeyReLu(&fClient, &relu_k0_0, &relu_k0_1, &relu_k1_0, &relu_k1_1);
-            
             initializeServer(&fServer, &fClient);
             
             // Test functionality using config constants
-            cout << "Testing ReLU functionality..." << endl;
             uint64_t lt_ans0, lt_ans1, lt_fin;
             uint64_t test_input = FSS_Config::TEST_VALUE_A - 1;
             
             lt_ans0 = evaluateReLu(&fServer, &relu_k0_0, &relu_k0_1, &relu_k1_0, &relu_k1_1, test_input);
             lt_ans1 = evaluateReLu(&fServer, &relu_k0_0, &relu_k0_1, &relu_k1_0, &relu_k1_1, test_input);
             lt_fin = lt_ans0 - lt_ans1;
-            
-            cout << "FSS ReLU test result: " << lt_fin << endl;
-            
-            cout << "Starting online phase ..." << endl;
             auto t_begin = chrono::high_resolution_clock::now();
             
             size_t rounds = FSS_Config::DEFAULT_ROUNDS;
@@ -63,7 +56,7 @@ int main()
             double online_com = sizeof(uint64_t) * rounds * 3 / (1024.0 * 1024.0); // MB 
             double throughput = (rounds * 2 * 1000.0) / total_time; // evaluations per second
             
-            cout << "\n--- Results for " << net.name << " ---" << endl;
+            cout << "\n--- Results for " << net.name << " (Party 1) ---" << endl;
             cout << "Rounds: " << rounds << endl;
             cout << "Total time: " << fixed << setprecision(2) << total_time << " ms" << endl;
             cout << "Average time per evaluation: " << fixed << setprecision(3) 
@@ -77,6 +70,7 @@ int main()
             double bandwidth_utilization = (effective_bandwidth / net.bandwidth_mbps) * 100.0;
             
             cout << "Server (Party 1) completed function evaluation phase for " << net.name << endl;
+            cout << string(60, '-') << endl;
             
         } catch (const exception& e) {
             cout << "Error [" << net.name << "]: " << e.what() << endl;

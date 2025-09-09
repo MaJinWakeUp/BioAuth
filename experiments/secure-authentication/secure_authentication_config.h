@@ -56,9 +56,9 @@ inline void cleanupNetwork() {
 inline std::vector<NetworkConfig> getNetworkConfigurations() {
     return {
         NetworkConfig("BASELINE", 0, 0, "Baseline Performance Test"),
-        NetworkConfig("LAN", 1, 1000, "LAN: RTT 2ms, 1Gbps"),
-        NetworkConfig("MAN", 10, 100, "MAN: RTT 20ms, 100Mbps"),
-        NetworkConfig("WAN", 50, 50, "WAN: RTT 100ms, 50Mbps"),
+        NetworkConfig("LAN", 1, 1000, "LAN: RTT 0.1ms, 1Gbps"),
+        NetworkConfig("MAN", 6, 100, "MAN: RTT 6ms, 100Mbps"),
+        NetworkConfig("WAN", 80, 40, "WAN: RTT 80ms, 40Mbps"),
     };
 }
 

@@ -18,18 +18,14 @@ using namespace bioauth::experiments::dot_product;
 int main() {
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
-    std::cout << "=== Party 1 online ===" << std::endl;
-    std::cout << "Vector length: " << dim << std::endl;
-    std::cout << "Database size: " << dbsize << std::endl;
+    auto networks = getNetworkConfigurations();
+    
+    std::cout << "\n=== Dot Product Database - Party 1 ===" << std::endl;
+    std::cout << "Vector length: " << dim << ", Database size: " << dbsize << std::endl;
     std::cout << std::endl;
     
-    const std::vector<std::string> network_names = {
-        "LAN", "MAN", "WAN"
-    };
-    
-    for (size_t test = 0; test < network_names.size(); test++) {
+    for (size_t test = 0; test < networks.size(); test++) {
         try {
-            std::cout << "Testing network: " << network_names[test] << std::endl;
             
             using ShrType = Spdz2kShare64;
             using ClearType = ShrType::ClearType;
@@ -52,21 +48,18 @@ int main() {
             circuit.readOfflineFromFile();
             circuit.runOnlineWithBenckmark();
             
-            std::cout << "--------- Online Phase ---------" << std::endl;
             double comm1 = party.bytes_sent_actual() / 1024.0 ;
             double time1 = circuit.timer().elapsed();
             
-            std::cout << "[" << network_names[test] << "] [Party 1] Time: " 
-                     << std::fixed << std::setprecision(2) << time1 
-                     << " ms, Communication: " << std::fixed 
-                     << std::setprecision(2) << comm1 << " KB, "<<comm1/1024.0<<"MB" << std::endl;
+            std::cout << "\n--- Results for " << networks[test].name << " (Party 1) ---" << std::endl;
+            std::cout << "Time: " << std::fixed << std::setprecision(2) << time1 << " ms" << std::endl;
+            std::cout << "Communication: " << std::fixed << std::setprecision(2) << comm1 << " KB (" << comm1/1024.0 << " MB)" << std::endl;
                      
         } catch (const std::exception& e) {
-            std::cout << "Error [" << network_names[test] << "]: " << e.what() << std::endl;
+            std::cout << "Error [" << networks[test].name << "]: " << e.what() << std::endl;
         }
         
-        if (test < network_names.size() - 1) {
-            std::cout << "Waiting for next test..." << std::endl;
+        if (test < networks.size() - 1) {
             std::this_thread::sleep_for(std::chrono::seconds(2));
         }
     }

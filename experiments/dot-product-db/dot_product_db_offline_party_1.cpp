@@ -362,16 +362,14 @@ int main(int argc, char* argv[]) {
     
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
-    std::cout << "=== Party 0 offline ===" << std::endl;
+    auto networks = getNetworkConfigurations();
+    
+    std::cout << "----- Party 1 offline -----" << std::endl;
     std::cout << "vector length: " << dim << std::endl;
     std::cout << "database size: " << dbsize << std::endl;
     std::cout << std::endl;
     
-    const std::vector<std::string> network_names = {
-       "LAN", "MAN", "WAN"
-    };
-    
-    for (size_t test = 0; test < network_names.size(); test++) {
+    for (size_t test = 0; test < networks.size(); test++) {
         try {
             
             
@@ -394,18 +392,18 @@ int main(int argc, char* argv[]) {
             double throughput = (total_duration > 0) ? party_mb / (total_duration / 1000.0) : 0;
             double realistic_throughput = (total_duration > 0) ? realistic_mb / (total_duration / 1000.0) : 0;
             
-            std::cout  << network_names[test] << std::endl;
+            std::cout  << networks[test].name << std::endl;
             std::cout << "  time: " << total_duration << " ms" << std::endl;
-            std::cout << "  simulated communication: " << std::setprecision(2) << total_mb << " MB" << std::endl;
-            std::cout << "  realistic estimate communication: " << std::setprecision(2) 
+            //std::cout << "  simulated communication: " << std::setprecision(2) << total_mb << " MB" << std::endl;
+            std::cout << "  simulated communication: " << std::setprecision(2) 
                       << realistic_mb << " MB (" << realistic_gb << " GB)" << std::endl;
             std::cout << std::string(50, '-') << std::endl;
             
         } catch (const std::exception& e) {
-            std::cout << "Error [" << network_names[test] << "]: " << e.what() << std::endl;
+            std::cout << "Error [" << networks[test].name << "]: " << e.what() << std::endl;
         }
         
-        if (test < network_names.size() - 1) {
+        if (test < networks.size() - 1) {
             std::cout << "wait for next testing..." << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(2));
         }

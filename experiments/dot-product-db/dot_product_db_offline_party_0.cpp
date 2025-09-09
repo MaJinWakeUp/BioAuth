@@ -17,17 +17,7 @@ using namespace bioauth;
 using namespace bioauth::experiments::dot_product;
 
 constexpr int PARTY_ID = 0;
-constexpr uint64_t FIELD_SIZE = (1ULL << 61) - 1; 
-
-struct NetworkConfig {
-    std::string name;
-    int delay_ms;       
-    int bandwidth_mbps; 
-    std::string description;
-    
-    NetworkConfig(const std::string& n, int delay, int bw, const std::string& desc)
-        : name(n), delay_ms(delay), bandwidth_mbps(bw), description(desc) {}
-};
+constexpr uint64_t FIELD_SIZE = (1ULL << 61) - 1;
 
 struct Triple {
     uint64_t a_share, b_share, c_share;
@@ -72,26 +62,6 @@ uint64_t field_sub(uint64_t a, uint64_t b) {
     return (a >= b) ? (a - b) : (FIELD_SIZE - (b - a));
 }
 
-void setupNetwork(const NetworkConfig& config) {
-    if (config.delay_ms == 0) {
-        system("sudo tc qdisc del dev lo root 2>/dev/null");
-        return;
-    }
-    
-    std::string cmd = 
-        "sudo tc qdisc del dev lo root 2>/dev/null; "
-        "sudo tc qdisc add dev lo root handle 1: netem delay " + 
-        std::to_string(config.delay_ms) + "ms; "
-        "sudo tc qdisc add dev lo parent 1:1 handle 10: tbf rate " + 
-        std::to_string(config.bandwidth_mbps) + "mbit burst 32kbit latency 50ms";
-    
-    system(cmd.c_str());
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
-}
-
-void cleanupNetwork() {
-    system("sudo tc qdisc del dev lo root 2>/dev/null");
-}
 
 // realistic ommuniciation
 class RealisticSPDZEstimator {
@@ -479,20 +449,17 @@ public:
 int main(int argc, char* argv[]) {
     int base_port = (argc >= 2) ? std::stoi(argv[1]) : 8000;
     
-    std::vector<NetworkConfig> networks = {
-        NetworkConfig("LAN", 1, 1000, "LAN: RTT 2ms, 1Gbps"),
-        NetworkConfig("MAN", 10, 100, "MAN: RTT 20ms, 100Mbps"),
-        NetworkConfig("WAN", 50, 50, "WAN: RTT 100ms, 50Mbps"),
-    };
+    auto networks = getNetworkConfigurations();
     
-    std::cout << "=== Party 0 offline ===" << std::endl;
+    std::cout << "----- Party 0 offline -----" << std::endl;
     std::cout << "vector length: " << dim << std::endl;
     std::cout << "database size: " << dbsize << std::endl;
     std::cout << std::endl;
     
     for (const auto& net : networks) {
         try {
-            setupNetwork(net);
+            bool network_configured = setupNetwork(net);
+            printNetworkTestHeader(net, network_configured);
             
             Party party(PARTY_ID, 2, base_port);
             SPDZOfflineSimulator simulator(party);
@@ -517,8 +484,8 @@ int main(int argc, char* argv[]) {
                       << " (delay: " << net.delay_ms << "ms, bandwidth: " << net.bandwidth_mbps << "Mbps)" << std::endl;
             
             std::cout << " time: " << total_duration << " ms" << std::endl;
-            std::cout << " simulated communication : " << std::setprecision(2) << mb << " MB" << std::endl;
-            std::cout << " realistic communication : " << std::setprecision(2) 
+           // std::cout << " simulated communication : " << std::setprecision(2) << mb << " MB" << std::endl;
+            std::cout << " simulated communication : " << std::setprecision(2) 
                       << realistic_mb << " MB (" << realistic_gb << " GB)" << std::endl;
    
             

@@ -1,0 +1,24 @@
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y build-essential cmake git libeigen3-dev libboost-all-dev libssl-dev libgmp-dev libgmpxx4ldbl iproute2 net-tools
+WORKDIR /app
+COPY . .
+RUN rm -rf build && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j4
+WORKDIR /app/build/experiments/secure-com
+RUN mkdir -p fake-offline-data keys
+CMD echo "BioAuth Secure Comparison Test" && \
+    echo "Testing secure comparison operations..." && \
+    echo "" && \
+    ./com_party_1 > party1_output.log 2>&1 & \
+    party1_pid=$! && \
+    sleep 3 && \
+    ./com_party_0 > party0_output.log 2>&1 && \
+    wait $party1_pid && \
+    echo "" && \
+    echo "=== Party 1 (Server) Results ===" && \
+    cat party1_output.log && \
+    echo "" && \
+    echo "=== Party 0 (Client) Results ===" && \
+    cat party0_output.log && \
+    echo "" && \
+    echo "=== Secure Comparison Tests Completed ==="

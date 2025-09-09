@@ -4,25 +4,74 @@ FLAME: Flexible and Lightweight Biometric Authentication Scheme in Malicious Env
 
 ## Quick Start
 
+### Using Docker (Recommended)
+
+Run the complete authentication process:
 ```bash
 ./RUN.sh
 ```
 
-Requires Docker environment.
+Run specific experiments:
+```bash
+./RUN.sh -e secure-authentication    # Complete authentication process (default)
+./RUN.sh -e dot-product-db          # Dot product 
+./RUN.sh -e dot-product-db-offline   # Dot product database simulated offline 
+./RUN.sh -e secure-com               # Secure comparison 
+```
 
-## Configuration
-- Vector Length: 1024
-- Database Size: 512
-- Security Parameter: Spdz2k 64-bit shares
-- FSS Parameter: 10-bit, 2-party
+**Requirements:** Docker environment
 
-## Experiment Results
-After execution, view performance metrics:
-- Similarity computation time
-- Communication overhead
-- FSS key generation time
-- Vector selection time
+## Network Testing
+All experiments test performance under 4 different network conditions:
+- **BASELINE**: No network simulation (optimal performance)
+- **LAN**: 0.1ms latency, 1Gbps bandwidth
+- **MAN**: 6ms latency, 100Mbps bandwidth  
+- **WAN**: 80ms latency, 40Mbps bandwidth
 
+## Expected Output
+
+### Secure Authentication (Vector Length: 1024,Database Size: 512)
+| Network | Party 0/1 Time (ms) | Communication (KB) |
+|---------|---------------------|--------------------|
+| BASELINE| 131.89              | 199.62             |
+| LAN     | 295.98              | 199.62             |
+| MAN     | 856.51              | 199.62             |
+| WAN     | 2922.81             | 199.62             |
+
+![alt text](graph/image.png)
+
+### Secure Dot Product Online (Vector Length: 1024,Database Size: 512)
+| Network | Party 0(Clent) Time (ms) | Party 1(Dataset) Time (ms) |  Communication (MB)|
+|---------|--------------------------|----------------------------|--------------------|
+| BASELINE| 52.00                    | 15.00                      | 0.01               |
+| LAN     | 177.00                   | 154.00                     | 0.01               |
+| MAN     | 776.00                   | 1006.00                    | 0.01               |
+| WAN     | 2851.00                  | 3599.00                    | 0.01               |
+![alt text](graph/dotonline.png)
+
+### Secure Dot Product Simulated Offline (Vector Length: 1024,Database Size: 256)
+ *Note: Simulated offline phase involves computationally intensive preprocessing with high communication overhead.*
+| Network | Party 0+1 Time (mins) | Communication (GB)|
+|---------|-----------------------|-------------------|
+| BASELINE| 0.42                  | 2.5               |
+| LAN     | 1.12                  | 2.5               |
+| MAN     | 8.98                  | 2.5               |
+| WAN     | 15.75                 | 2.5               |
+![alt text](graph/dotoffline.png)
+
+### Secure Comparison (Rounds: 512)
+| Network | Offline (Party 0) Time (ms) | Communication (MB) | Online (Party1) Time (ms) | Communication (MB) |
+|---------|----------------------------|--------------------|----------------------------|--------------------|
+| BASELINE| 70.95                      | 0.56               | 8.41                       | 0.0117             |
+| LAN     | 82.84                      | 0.56               | 19.33                      | 0.0117             |
+| MAN     | 84.37                      | 0.56               | 19.95                      | 0.0117             |
+| WAN     | 89.52                      | 0.56               | 20.65                      | 0.0117             |
+![alt text](graph/comoffline.png)![alt text](graph/comonline.png)
+
+
+*Note: Performance may vary based on system specifications and network conditions.*
+
+---
 
 ### Dependencies
 

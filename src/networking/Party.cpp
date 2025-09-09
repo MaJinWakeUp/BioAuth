@@ -114,7 +114,7 @@ void Party::ConnectHandler(const boost::system::error_code& ec, std::size_t to_i
 
     std::lock_guard cerr_lock(cerr_mutex_);
     // std::cerr << std::format("Failed to connect to party {}, retry after {} seconds...\n", to_id, kRetryAfterSeconds);
-    std::cerr << "Failed to connect to party " << to_id << ", retry after " << kRetryAfterSeconds << " seconds...\n";
+    // std::cerr << "Failed to connect to party " << to_id << ", retry after " << kRetryAfterSeconds << " seconds...\n";
 
     if (send_sockets_[to_id].is_open()) {
         send_sockets_[to_id].close();

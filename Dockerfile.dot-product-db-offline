@@ -1,0 +1,16 @@
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y build-essential cmake git libeigen3-dev libboost-all-dev libssl-dev libgmp-dev libgmpxx4ldbl iproute2 net-tools
+WORKDIR /app
+COPY . .
+RUN rm -rf build && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j4
+WORKDIR /app/build/experiments/dot-product-db
+RUN mkdir -p fake-offline-data keys
+CMD echo "BioAuth Dot Product Database Offline Test" && \
+    echo "Testing dot product database offline operations..." && \
+    echo "" && \
+    ./dot_product_db_offline_party_1 & \
+    party1_pid=$! && \
+    sleep 3 && \
+    ./dot_product_db_offline_party_0 && \
+    wait $party1_pid
