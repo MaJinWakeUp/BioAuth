@@ -19,6 +19,12 @@ Run specific experiments:
 ./RUN.sh -e secure-com               # Secure comparison 
 ```
 
+### Google Colab
+
+Try the online demon on Google Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](
+https://colab.research.google.com/github/MaJinWakeUp/BioAuth/BioAuth_Colab.ipynb
+)
+
 **Requirements:** Docker environment
 
 ## Network Testing
