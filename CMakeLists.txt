@@ -148,4 +148,15 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     endif()
 endif()
 
+# Turn this ON to silence warnings globally
+option(IGNORE_WARNINGS "Silence all compiler warnings" ON)
+
+if(IGNORE_WARNINGS)
+  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(-w)         # GCC/Clang: disable all warnings
+  elseif (MSVC)
+    add_compile_options(/w)         # MSVC: disable all warnings
+  endif()
+endif()
+
 add_subdirectory(experiments)
