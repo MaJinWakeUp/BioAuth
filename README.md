@@ -23,9 +23,7 @@ Run specific experiments:
 
 ### Google Colab
 
-Try the online demon on Google Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](
-https://colab.research.google.com/github/MaJinWakeUp/BioAuth/BioAuth_Colab.ipynb
-)
+Try the online demon on Google Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/MaJinWakeUp/BioAuth/blob/main/BioAuth_Colab.ipynb)
 > [! NOTE] There is no network traffic control in Colab.
 
 ## Network Testing
