@@ -34,6 +34,11 @@ endif ()
 find_package(Threads REQUIRED)
 list(APPEND ONLINE_LIB Threads::Threads)
 
+# oneTBB (required if code/Eigen uses TBB)
+find_package(TBB REQUIRED)    
+list(APPEND ONLINE_LIB TBB::tbb)
+list(APPEND FAKE_OFFLINE_LIB TBB::tbb)
+
 # Create a directory for fake offline data, and pass it to the compiler
 set(FAKE_OFFLINE_DIR "${PROJECT_SOURCE_DIR}/fake-offline-data")
 add_compile_definitions(FAKE_OFFLINE_DIR="${FAKE_OFFLINE_DIR}")
